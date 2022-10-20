@@ -1,14 +1,27 @@
-import React from "react"
-import welcome from "../components/data/welcome.json";
+import React, {useState, useEffect} from "react"
+// import welcome from "../components/data/welcome.json";
 
 const Welcome = () => {
+    const [welcome, setWelcomeData] = useState([]);
+    const loadWelcomeData = async() => {
+    
+        const resp = await fetch('https://0skulwjdzf.execute-api.us-east-1.amazonaws.com/Production/GalleryItems')
+        let jsonData = await resp.json();
+        console.log(jsonData);
+        setWelcomeData(jsonData);
+    }
+
+    useEffect(() => {
+        //Load the menu from API
+    loadWelcomeData();
+    }, []);
     return (
         <div className="scene" id="welcome">
             <article className="content">
                 <div className="gallery">
                     {
                         welcome.map((source) => 
-                            <img src={source.src} alt={source.alt} />
+                            <img src={source.src.s}/>
                         )}
                 </div>
                 <h1>Welcome to the Landon&nbsp;Hotel</h1>
